@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPIP Calculator</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1 1 120px;
+      font-size: 18px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      min-width: 140px;
+    }
+
+    .yes { background-color: #4CAF50; color: white; }
+    .no  { background-color: #f44336; color: white; }
+    .reset { background-color: #9E9E9E; color: white; }
+
+    #result {
+      margin-top: 30px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 20px; }
+      button { font-size: 16px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>คำนวณ VPIP (Voluntarily Put Money In Pot)</h1>
+  <p>แตะเลือกแต่ละรอบ: ผู้เล่นใส่เงินหรือไม่</p>
+
+  <div class="button-container">
+    <button class="yes" onclick="recordVPIP(true)">ใส่เงิน (เล่นมือ)</button>
+    <button class="no" onclick="recordVPIP(false)">ไม่ใส่ (หมอบ/ผ่าน)</button>
+    <button class="reset" onclick="resetVPIP()">รีเซ็ต</button>
+  </div>
+
+  <div id="result">
+    มือทั้งหมด: 0<br>
+    มือที่ใส่เงิน: 0<br>
+    VPIP: 0%
+  </div>
+
+  <script>
+    let totalHands = 0;
+    let vpipHands = 0;
+
+    function recordVPIP(putMoney) {
+      totalHands++;
+      if (putMoney) vpipHands++;
+      updateDisplay();
+    }
+
+    function resetVPIP() {
+      if (confirm("คุณต้องการรีเซ็ตข้อมูลทั้งหมดหรือไม่?")) {
+        totalHands = 0;
+        vpipHands = 0;
+        updateDisplay();
+      }
+    }
+
+    function updateDisplay() {
+      const vpipPercent = totalHands > 0 ? ((vpipHands / totalHands) * 100).toFixed(2) : 0;
+      document.getElementById('result').innerHTML = `
+        มือทั้งหมด: ${totalHands}<br>
+        มือที่ใส่เงิน: ${vpipHands}<br>
+        VPIP: ${vpipPercent}%
+      `;
+    }
+  </script>
+</body>
+</html>
